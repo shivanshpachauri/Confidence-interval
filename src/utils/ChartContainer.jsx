@@ -35,11 +35,11 @@ const ChartContainer = () => {
         lowerconfidence={lowerconfidence}
       />
       <hr />
-
+    <div className="container"style={{display:"inline-flex", height:"500px",width:"700px",alignItems:"center"}}>
       <PieChart
         upperconfidence={upperconfidence}
         lowerconfidence={lowerconfidence}
-      />
+      /></div>
     </div>
   );
 };

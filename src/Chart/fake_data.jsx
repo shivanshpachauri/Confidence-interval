@@ -37,7 +37,7 @@ const piedata = (uppercon, lowercon) => {
     datasets: [
       {
         label: ["uppercon", "lowercon"],
-        data: [uppercon, lowercon],
+        data: uppercon, lowercon,
         backgroundColor: [
           "rgba(75,192,192,1)",
           //   &quot;#ecf0f1",
