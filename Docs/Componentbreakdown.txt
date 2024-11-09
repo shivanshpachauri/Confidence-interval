@@ -1,0 +1,30 @@
+Component Breakdown
+Header.js: Displays the title and any navigation links.
+
+DataInput.js: A form component where users can input data (e.g., numerical values, categories).
+ It can include validation to ensure the data is suitable for analysis.
+
+TrendChart.js: A chart component (using libraries like Chart.js or D3.js) to visualize data trends over time, 
+including confidence intervals.
+
+ConfidenceInterval.js: A component that computes and displays the confidence interval based on user input data. 
+It can show the range and highlight it on the TrendChart.
+
+Results.js: Displays the statistical results, including means, confidence intervals, and interpretations.
+
+Footer.js: Contains additional information or links, like references or resources.
+
+Hooks
+useConfidenceInterval.js: A custom hook to handle the logic for calculating confidence intervals based on the input data. 
+It can manage state for the data, interval values, and any errors in input.
+
+Utilities
+statistics.js: Functions for statistical calculations, including mean, standard deviation, and confidence interval calculations.
+
+dataProcessing.js: Functions to format and preprocess user data for analysis.
+
+Context
+
+AppContext.js: If you need to manage global state (like user input data or results), this context can help avoid prop drilling.
+Main App File
+App.js: The main component that ties everything together, handling the flow of data and rendering the components.

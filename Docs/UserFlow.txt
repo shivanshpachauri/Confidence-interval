@@ -1,0 +1,17 @@
+User Flow
+User Inputs Data: Users enter their data into the DataInput component.
+
+Calculation Trigger: On form submission, the app uses the useConfidenceInterval hook to calculate the confidence interval.
+
+Display Results: The app then updates the Results and TrendChart components to visualize the data and the calculated confidence intervals.
+
+Additional Considerations
+
+Data Validation: Ensure robust validation for user inputs to prevent errors in calculations.
+
+Error Handling: Handle potential errors gracefully (e.g., no data provided).
+
+Styling: Use CSS or a UI framework like Material-UI for responsive design.
+
+This structure should give you a solid foundation for developing a React app
+ utilizes confidence intervals to predict trends and behaviors effectively!

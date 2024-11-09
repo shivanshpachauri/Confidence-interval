@@ -1,0 +1,147 @@
+To perform data cleansing in a React application, especially after importing data using **Papa Parse** (a popular CSV parser), you can follow these general steps. The goal is to filter specific columns, rows, and format data as needed. Here's how you can do this:
+
+### Step-by-Step Guide
+
+1. **Install Dependencies**  
+   First, make sure you have `papaparse` installed in your project:
+   
+   ```bash
+   npm install papaparse
+   ```
+
+2. **Import Papa Parse**  
+   Import the Papa Parse library into your React component.
+
+   ```jsx
+   import Papa from 'papaparse';
+   ```
+
+3. **Read and Parse the CSV File**  
+   After selecting a CSV file, you can use Papa Parse to parse it. Here's an example of how to read and parse the file.
+
+   ```jsx
+   import React, { useState } from 'react';
+   import Papa from 'papaparse';
+
+   const DataCleansingComponent = () => {
+     const [data, setData] = useState([]);
+     const [filteredData, setFilteredData] = useState([]);
+
+     // Function to handle CSV file upload
+     const handleFileUpload = (e) => {
+       const file = e.target.files[0];
+       if (file) {
+         Papa.parse(file, {
+           complete: (result) => {
+             // Parse the data into rows and columns
+             const rows = result.data;
+             console.log(rows);
+             
+             // You can clean or filter data here
+             const cleanedData = cleanData(rows);
+             setData(cleanedData);
+             setFilteredData(cleanedData);
+           },
+           header: true, // Consider the first row as header
+           skipEmptyLines: true, // Skip empty rows
+         });
+       }
+     };
+
+     // Function to clean the data
+     const cleanData = (rows) => {
+       return rows
+         .filter(row => row['ColumnName'] !== undefined && row['ColumnName'] !== '') // Filter out rows based on some condition
+         .map(row => ({
+           // Format the data (e.g., trimming strings, converting to numbers, etc.)
+           column1: row['Column1'] ? row['Column1'].trim() : '',
+           column2: row['Column2'] ? parseFloat(row['Column2']) : 0,
+           column3: row['Column3'] ? row['Column3'].toUpperCase() : '',
+         }));
+     };
+
+     // Displaying the filtered data
+     return (
+       <div>
+         <input type="file" accept=".csv" onChange={handleFileUpload} />
+         <table>
+           <thead>
+             <tr>
+               <th>Column 1</th>
+               <th>Column 2</th>
+               <th>Column 3</th>
+             </tr>
+           </thead>
+           <tbody>
+             {filteredData.map((row, index) => (
+               <tr key={index}>
+                 <td>{row.column1}</td>
+                 <td>{row.column2}</td>
+                 <td>{row.column3}</td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
+       </div>
+     );
+   };
+
+   export default DataCleansingComponent;
+   ```
+
+### Explanation
+
+- **Handle File Upload**:  
+  When the user selects a file (`<input type="file" />`), the `handleFileUpload` function is called. It uses `Papa.parse()` to read the file and parse its content. In the `complete` callback of `Papa.parse()`, we receive the CSV data as an array of rows, where each row is an object (assuming `header: true` is set).
+
+- **Cleaning Data**:  
+  The `cleanData` function filters out rows and columns, applies formatting, or transforms data. For example:
+  - You can remove empty rows or rows with missing required columns (`row['ColumnName'] !== undefined && row['ColumnName'] !== ''`).
+  - You can format data such as trimming whitespace or converting a column to a numeric type using `parseFloat()`.
+
+- **Displaying Data**:  
+  The filtered and cleaned data is stored in the `filteredData` state, which is then mapped over and displayed in an HTML table.
+
+### Example Use Cases
+
+1. **Filter Specific Columns**:  
+   If you want to display only a few columns from the CSV, just select the columns you need when mapping over the rows.
+
+   ```js
+   .map(row => ({
+     column1: row['Column1'],
+     column2: row['Column2']
+   }));
+   ```
+
+2. **Filter Specific Rows**:  
+   You can filter out rows based on conditions like non-empty cells, specific values, or data types.
+
+   ```js
+   rows.filter(row => row['ColumnName'] === 'SomeCondition')
+   ```
+
+3. **Format Data**:  
+   You can format or clean the data (e.g., converting strings to numbers, trimming spaces, etc.):
+
+   ```js
+   row['Column1'] ? parseFloat(row['Column1']) : 0
+   ```
+
+4. **Handle Empty Rows**:  
+   You can skip rows that are empty or contain only `null` values.
+
+   ```js
+   rows.filter(row => row.some(cell => cell !== null && cell !== ''))
+   ```
+
+5. **Custom Column Handling**:  
+   If you need to convert dates, make text uppercase, or transform data, you can apply these transformations when mapping rows.
+
+   ```js
+   row['DateColumn'] ? new Date(row['DateColumn']).toLocaleDateString() : ''
+   ```
+
+### Conclusion
+
+Using **Papa Parse** in React allows you to easily import, filter, and format CSV data as part of your data cleansing process. After importing the data, you can filter rows and columns based on certain conditions, format the data (e.g., dates, numbers, text), and display it as needed in your component. This helps ensure the data is clean and ready for further processing or visualization in your application.
